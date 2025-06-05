@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "kpnboxapi"
-version = "0.1.1"
+version = "0.1.2"
 description = "Python library for interacting with KPN Box modem/router"
 authors = [{name = "ssl", email = "git@elyesa.nl"}]
 license = {text = "MIT"}
@@ -31,8 +31,6 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=7.0.0",
-    "pytest-cov>=4.0.0",
     "flake8>=5.0.0",
     "black>=22.0.0",
     "mypy>=1.0.0",
