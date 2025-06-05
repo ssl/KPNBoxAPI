@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "kpnboxapi"
-version = "0.1.3"
+version = "0.1.4"
 description = "Python library for interacting with KPN Box modem/router"
 authors = [{name = "ssl", email = "git@elyesa.nl"}]
 license = {text = "MIT"}
