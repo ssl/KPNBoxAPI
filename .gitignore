@@ -4,3 +4,10 @@ __pycache__/
 .idea/
 .vscode/
 .DS_Store
+*.egg-info/
+build/
+dist/
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/

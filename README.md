@@ -3934,7 +3934,7 @@ If you have access to KPN Box routers with these services active and can help te
 ## Error Handling
 
 ```python
-from kpnboxapi import KPNBoxAPI, AuthenticationError, ConnectionError
+from kpnboxapi import KPNBoxAPI, APIError, AuthenticationError, KPNBoxConnectionError
 
 try:
     with KPNBoxAPI() as api:
@@ -3942,9 +3942,40 @@ try:
         devices = api.get_devices()
 except AuthenticationError:
     print("Invalid credentials")
-except ConnectionError:
+except KPNBoxConnectionError:
     print("Cannot connect to KPN Box")
+except APIError as e:
+    print(f"KPN Box refused the request: {e}")
 ```
+
+All exceptions inherit from `KPNBoxAPIError`:
+
+- `AuthenticationError`: login failed, or a call was made before `login()`.
+- `KPNBoxConnectionError`: the router could not be reached (network error, timeout). Also importable as `ConnectionError` for backwards compatibility; that name shadows the Python builtin.
+- `APIError`: the router answered with an HTTP error (`status_code` is set), an unreadable body, or an expired session that could not be renewed.
+
+Functions that return `True`/`False` return `False` when the router rejects the change. They raise the exceptions above when the router cannot be reached, so a failed call is never mistaken for a rejected one.
+
+### Logging
+
+The library logs to the `kpnboxapi` logger. Request parameters are never logged, because they can contain passwords.
+
+```python
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
+```
+
+## Development
+
+```bash
+pip install -e ".[dev]"
+pytest
+ruff check src tests
+mypy
+```
+
+The tests mock the router's HTTP API, so no KPN Box is needed to run them.
 
 ## Supported Models
 

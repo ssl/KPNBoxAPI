@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "kpnboxapi"
-version = "0.1.4"
+version = "0.2.0"
 description = "Python library for interacting with KPN Box modem/router"
 authors = [{name = "ssl", email = "git@elyesa.nl"}]
 license = {text = "MIT"}
@@ -31,9 +31,11 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-    "flake8>=5.0.0",
-    "black>=22.0.0",
+    "pytest>=7.0.0",
+    "responses>=0.23.0",
+    "ruff>=0.4.0",
     "mypy>=1.0.0",
+    "types-requests",
     "build>=0.10.0",
     "twine>=4.0.0",
 ]
@@ -49,12 +51,27 @@ where = ["src"]
 [tool.setuptools.package-dir]
 "" = "src"
 
-[tool.black]
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
 line-length = 88
-target-version = ['py38']
+target-version = "py38"
+src = ["src", "tests"]
+extend-exclude = ["examples"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = [
+    "E501",  # long docstring lines and field descriptions
+    "UP006", # keep typing.Dict/List while Python 3.8 is supported
+    "UP007", # keep Optional/Union while Python 3.8 is supported
+    "UP035",
+]
 
 [tool.mypy]
-python_version = "3.8"
-warn_return_any = true
+files = ["src"]
 warn_unused_configs = true
-disallow_untyped_defs = true 
+disallow_untyped_defs = true
+# Router responses are untyped JSON, so returning Any from them is expected.
+warn_return_any = false
