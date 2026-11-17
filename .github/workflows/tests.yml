@@ -34,7 +34,8 @@ jobs:
       run: mypy
 
   test:
-    runs-on: ubuntu-latest
+    # Pinned: ubuntu-latest (26.04) no longer provides Python 3.8 and 3.9
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
